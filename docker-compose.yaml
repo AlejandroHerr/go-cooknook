@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: tests
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: tests
