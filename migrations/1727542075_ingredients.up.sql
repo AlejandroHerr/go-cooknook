@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS ingredients(
+  id UUID PRIMARY KEY,
+  name VARCHAR (100)  UNIQUE NOT NULL,
+  kind VARCHAR (50)
+);
