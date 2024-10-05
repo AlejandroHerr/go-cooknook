@@ -10,11 +10,11 @@ import (
 )
 
 type Config struct {
-	Host     string
-	Port     int
-	Database string
-	User     *string
 	Password *string
+	User     *string
+	Port     int
+	Host     string
+	Database string
 }
 
 func Connect(config *Config) (*pgxpool.Pool, error) {
@@ -24,11 +24,18 @@ func Connect(config *Config) (*pgxpool.Pool, error) {
 		userPass = fmt.Sprintf("user=%s password=%s", *config.User, *config.Password)
 	}
 
-	pgxConfig, err := pgxpool.ParseConfig(fmt.Sprintf("host=%s port=%d dbname=%s %s", config.Host, config.Port, config.Database, userPass))
+	pgxConfig, err := pgxpool.ParseConfig(fmt.Sprintf(
+		"host=%s port=%d dbname=%s %s",
+		config.Host,
+		config.Port,
+		config.Database,
+		userPass,
+	))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse pgx config: %w", err)
 	}
-	pgxConfig.AfterConnect = func(ctx context.Context, conn *pgx.Conn) error {
+
+	pgxConfig.AfterConnect = func(_ context.Context, conn *pgx.Conn) error {
 		pgxUUID.Register(conn.TypeMap())
 
 		return nil
