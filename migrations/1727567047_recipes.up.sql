@@ -2,7 +2,8 @@
 CREATE TABLE IF NOT EXISTS recipes (
   id UUID PRIMARY KEY,
   name VARCHAR (100) NOT NULL,
-  description TEXT
+  description TEXT,
+  url VARCHAR (255)
 );
 
 CREATE TABLE IF NOT EXISTS recipe_ingredients (
