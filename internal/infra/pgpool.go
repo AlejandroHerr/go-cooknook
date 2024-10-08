@@ -3,6 +3,7 @@ package infra
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -15,9 +16,10 @@ type Config struct {
 	Port     int
 	Host     string
 	Database string
+	Timeout  time.Duration
 }
 
-func Connect(config *Config) (*pgxpool.Pool, error) {
+func Connect(ctx context.Context, config *Config) (*pgxpool.Pool, error) {
 	userPass := ""
 
 	if config.User != nil && config.Password != nil {
@@ -41,7 +43,15 @@ func Connect(config *Config) (*pgxpool.Pool, error) {
 		return nil
 	}
 
-	pool, err := pgxpool.NewWithConfig(context.Background(), pgxConfig)
+	timeout := config.Timeout
+	if timeout == 0 {
+		timeout = 60 * time.Second
+	}
+
+	handlerCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	pool, err := pgxpool.NewWithConfig(handlerCtx, pgxConfig)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}

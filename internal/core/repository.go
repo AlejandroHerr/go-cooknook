@@ -51,7 +51,7 @@ func (e *DuplicateKeyError) Unwrap() error    { return e.Err }
 func (e *ConstraintError) Unwrap() error      { return e.Err }
 func (e *InvalidArgumentError) Unwrap() error { return e.Err }
 
-func HandleError(err error, defaultMessage string) error {
+func HandleError(err error) error {
 	var pgErr *pgconn.PgError
 
 	if errors.As(err, &pgErr) {
@@ -63,5 +63,5 @@ func HandleError(err error, defaultMessage string) error {
 		}
 	}
 
-	return fmt.Errorf("%s: %v", defaultMessage, err)
+	return err
 }
