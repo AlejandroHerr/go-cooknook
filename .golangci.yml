@@ -101,9 +101,10 @@ linters:
     - misspell
     - nakedret
     - nolintlint
+    - paralleltest  
     - revive
     - rowserrcheck
-    - staticcheck
+    - staticcheck 
     - stylecheck
     - typecheck
     - unconvert
@@ -141,7 +142,7 @@ issues:
         - staticcheck
       text: "SA9003:"
 
-    # Exclude lll issues for long lines with go:generate
+    # Exclude lll isues for long lines with go:generate
     - linters:
         - lll
       source: "^//go:generate "
