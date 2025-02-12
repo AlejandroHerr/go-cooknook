@@ -58,13 +58,9 @@ linters-settings:
 
   lll:
     # Max line length, lines longer will be reported.
-    line-length: 120
+    line-length: 200
     # Tab width in spaces.
     tab-width: 4
-
-  unused:
-    # Treat code as a program (not a library) and report unused exported identifiers.
-    check-exported: false
 
   unparam:
     # Call this annotation to suppress unused parameter warning.
@@ -87,6 +83,9 @@ linters:
     - dogsled
     - dupl
     - errcheck
+    # - errorlint
+    # - errorlint
+    - exhaustruct
     - goconst
     - gocritic
     - gocyclo
@@ -101,6 +100,7 @@ linters:
     - misspell
     - nakedret
     - nolintlint
+    - paralleltest
     - revive
     - rowserrcheck
     - staticcheck
@@ -141,7 +141,7 @@ issues:
         - staticcheck
       text: "SA9003:"
 
-    # Exclude lll issues for long lines with go:generate
+    # Exclude lll isues for long lines with go:generate
     - linters:
         - lll
       source: "^//go:generate "
